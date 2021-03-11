@@ -6,7 +6,7 @@ import android.os.*
 
 enum class TimerState { STOPPED, PAUSED, RUNNING, TERMINATED }
 
-class TimerService: Service() {
+public class TimerService: Service() {
 
     companion object {
        public var state = TimerState.TERMINATED
