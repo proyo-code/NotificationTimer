@@ -24,27 +24,27 @@ typealias onTickListener = (Long) -> Unit
 
 object NotificationTimer: Timer {
 
-    private var notiIcon:Int? = null
-    private var notiTitle: CharSequence = ""
-    private var showWhen = false
-    private var notiColor = 0x66FFFFFF
-    private var notificationPriority = NotificationCompat.PRIORITY_LOW
-    private var isAutoCancel = false
-    private var isOnlyAlertOnce = true
-    private var isControlMode = false
-    private var contentPendingIntent: PendingIntent? = null
-    private var playBtnIcon: Int? = null
-    private var pauseBtnIcon: Int? = null
-    private var stopBtnIcon: Int? = null
-    private var finishListener: onFinishListener? = null
-    private var tickListener: onTickListener? = null
+    public var notiIcon:Int? = null
+    public var notiTitle: CharSequence = ""
+    public var showWhen = false
+    public var notiColor = 0x66FFFFFF
+    public var notificationPriority = NotificationCompat.PRIORITY_LOW
+    public var isAutoCancel = false
+    public var isOnlyAlertOnce = true
+    public var isControlMode = false
+    public var contentPendingIntent: PendingIntent? = null
+    public var playBtnIcon: Int? = null
+    public var pauseBtnIcon: Int? = null
+    public var stopBtnIcon: Int? = null
+    public var finishListener: onFinishListener? = null
+    public var tickListener: onTickListener? = null
 
-    private lateinit var channelId: String
-    private lateinit var notificationManager: NotificationManagerCompat
-    private lateinit var pausePendingIntent: PendingIntent
-    private lateinit var stopPendingIntent: PendingIntent
+    public lateinit var channelId: String
+    public lateinit var notificationManager: NotificationManagerCompat
+    public lateinit var pausePendingIntent: PendingIntent
+    public lateinit var stopPendingIntent: PendingIntent
 
-    private var setStartTime by Delegates.notNull<Long>()
+    public var setStartTime by Delegates.notNull<Long>()
 
     override fun play(context: Context, timeMillis: Long) {
         if(TimerService.state == TimerState.RUNNING) return
@@ -125,7 +125,7 @@ object NotificationTimer: Timer {
 
     fun removeNotification() = notificationManager.cancelAll()
 
-    private fun baseNotificationBuilder(context: Context, timeLeft: String) =
+    public fun baseNotificationBuilder(context: Context, timeLeft: String) =
         NotificationCompat.Builder(context, channelId).apply {
             notiIcon?.let { setSmallIcon(it) }
             setContentTitle(notiTitle)
@@ -140,7 +140,7 @@ object NotificationTimer: Timer {
                 setStyle(androidx.media.app.NotificationCompat.MediaStyle().setShowActionsInCompactView(0, 1))
         }
 
-    private fun playStateNotification(context: Context, timeLeft: String): Notification =
+    public fun playStateNotification(context: Context, timeLeft: String): Notification =
         baseNotificationBuilder(context, timeLeft).apply {
             if(isControlMode) {
                 pauseBtnIcon?.let { addAction(it, "pause", pausePendingIntent) }
@@ -148,7 +148,7 @@ object NotificationTimer: Timer {
             }
         }.build()
 
-    private fun pauseStateNotification(context: Context, timeLeft: String): Notification =
+    public fun pauseStateNotification(context: Context, timeLeft: String): Notification =
         baseNotificationBuilder(context, timeLeft).apply {
             if(isControlMode) {
                 playBtnIcon?.let { addAction(it, "play", getPlayPendingIntent(context, true)) }
@@ -156,7 +156,7 @@ object NotificationTimer: Timer {
             }
         }.build()
 
-    private fun standByStateNotification(context: Context, timeLeft: String): Notification =
+    public fun standByStateNotification(context: Context, timeLeft: String): Notification =
         baseNotificationBuilder(context, timeLeft).apply {
             if(isControlMode) {
                 playBtnIcon?.let { addAction(it, "play", getPlayPendingIntent(context)) }
@@ -164,7 +164,7 @@ object NotificationTimer: Timer {
             }
         }.build()
 
-    private fun getPlayPendingIntent(context: Context, isPausingState: Boolean = false): PendingIntent {
+    public fun getPlayPendingIntent(context: Context, isPausingState: Boolean = false): PendingIntent {
         val playIntent = Intent(context, TimerService::class.java).apply {
             action = "PLAY"
             putExtra("setTime", setStartTime)
@@ -174,7 +174,7 @@ object NotificationTimer: Timer {
         return PendingIntent.getService(context, 29, playIntent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    class Builder(private val context: Context) {
+    class Builder(public val context: Context) {
 
         fun setSmallIcon(icon: Int): Builder {
             notiIcon = icon

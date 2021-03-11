@@ -12,12 +12,12 @@ class TimerService: Service() {
         var state = TimerState.TERMINATED
     }
 
-    private lateinit var timer: CountDownTimer
+    public lateinit var timer: CountDownTimer
 
-    private val foreGroundId = 55
-    private var secondsRemaining: Long = 0
-    private var setTime:Long = 0
-    private lateinit var showTime: String
+    public val foreGroundId = 55
+    public var secondsRemaining: Long = 0
+    public var setTime:Long = 0
+    public lateinit var showTime: String
 
     override fun onBind(intent: Intent): IBinder? = null
 
@@ -48,7 +48,7 @@ class TimerService: Service() {
         stopSelf()
     }
 
-    private fun playTimer(setTime: Long, isReplay: Boolean) {
+    public fun playTimer(setTime: Long, isReplay: Boolean) {
 
         if (!isReplay) {
             this.setTime = setTime
@@ -77,7 +77,7 @@ class TimerService: Service() {
         state = TimerState.RUNNING
     }
 
-    private fun pauseTimer() {
+    public fun pauseTimer() {
         if (::timer.isInitialized) {
             timer.cancel()
             state = TimerState.PAUSED
@@ -85,7 +85,7 @@ class TimerService: Service() {
         }
     }
 
-    private fun stopTimer() {
+    public fun stopTimer() {
         if (::timer.isInitialized) {
             timer.cancel()
             state = TimerState.STOPPED
@@ -97,7 +97,7 @@ class TimerService: Service() {
         }
     }
 
-    private fun terminateTimer() {
+    public fun terminateTimer() {
         if (::timer.isInitialized) {
             timer.cancel()
             state = TimerState.TERMINATED
@@ -106,7 +106,7 @@ class TimerService: Service() {
         }
     }
 
-    private fun updateCountdownUI() {
+    public fun updateCountdownUI() {
         val minutesUntilFinished = (secondsRemaining/1000) / 60
         val secondsInMinuteUntilFinished = ((secondsRemaining/1000) - minutesUntilFinished * 60)
         val secondsStr = secondsInMinuteUntilFinished.toString()

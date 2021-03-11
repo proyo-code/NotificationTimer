@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import io.joon.notificationtimer.NotificationTimer
+import io.joon.notificationtimer.TimerService
+import io.joon.notificationtimer.TimerState
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -54,6 +56,9 @@ class MainActivity : AppCompatActivity() {
 
         terminate_btn.setOnClickListener {
             notiTimer.terminate()
+        }
+        if(TimerService.state== TimerState.TERMINATED) {
+            //TODO your code
         }
     }
 }
