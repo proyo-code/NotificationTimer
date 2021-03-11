@@ -9,7 +9,7 @@ enum class TimerState { STOPPED, PAUSED, RUNNING, TERMINATED }
 class TimerService: Service() {
 
     companion object {
-        var state = TimerState.TERMINATED
+       public var state = TimerState.TERMINATED
     }
 
     public lateinit var timer: CountDownTimer
